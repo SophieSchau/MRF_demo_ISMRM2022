@@ -1,0 +1,20 @@
+Bootstrap: docker-daemon
+From: python-sdk:latest
+
+%post
+    curl "https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh" -o "install.sh" && chmod +x install.sh && ./install.sh -b && eval "$(/root/anaconda3/bin/conda shell.bash hook)" && eval /root/anaconda3/bin/conda init
+    /root/anaconda3/bin/conda install -c conda-forge pydicom
+    /root/anaconda3/bin/conda install -y -c frankong sigpy
+    chmod -R 755 /root
+    
+%environment
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/root/anaconda3/lib/
+    export PATH=/root/anaconda3/bin/:${PATH}
+
+%files
+    ./GERecon.so /GERecon.so
+    ./entrypoint.sh /entrypoint.sh
+    ./scan_archive_io.py /scan_archive_io.py
+
+%runscript
+python3 /scan_archive_io.py $*

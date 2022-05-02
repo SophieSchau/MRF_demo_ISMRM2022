@@ -1,0 +1,11 @@
+c_dim            = 6
+input_nc         = 5
+output_nc        = 1
+ngf              = 64
+which_model_netG = "starresnet_6blocks"
+norm             = "instance"
+dropout          = True
+init_type        = "normal"
+init_gain        = 0.02
+gpu_ids          = [0]
+which_epoch      = 800

@@ -1,0 +1,32 @@
+Bootstrap: docker
+From: continuumio/miniconda3:latest
+
+%post
+    conda install -c conda-forge numpy
+    conda install -c conda-forge cupy
+    conda install -c conda-forge cudnn
+    conda install -c conda-forge nccl
+    conda install -c conda-forge numba
+    conda install -c conda-forge pywavelets
+    conda install -c conda-forge tqdm
+    conda install -c conda-forge scipy
+    conda install -c conda-forge sympy
+    pip install git+https://github.com/mikgroup/sigpy.git@master
+    pip3 install torch==1.9.1+cu111 torchvision==0.10.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
+    pip3 install pytorch-lightning==1.5.0
+    conda install -c conda-forge setuptools==59.5.0
+
+%files
+    smilr/* /recon/smilr/
+    main.py /recon/main.py
+    optpoly.py /recon/optpoly.py
+    optalg.py /recon/optalg.py
+    llr.py /recon/llr.py
+    mrf.py /recon/mrf.py
+    autofov.py /recon/autofov.py
+    load_data.py /recon/load_data.py
+    smilr.py /recon/smilr.py
+    nn.py /recon/nn.py
+
+%runscript
+    python3 /recon/main.py $*
