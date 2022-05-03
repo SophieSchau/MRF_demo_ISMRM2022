@@ -13,7 +13,6 @@ import optalg
 
 from load_data  import load_data
 from autofov    import autofov
-from smilr      import smilr
 
 def main(args):
 
@@ -148,41 +147,7 @@ def main(args):
 
     if args.s:
       print("> SMILR:", flush=True)
-
-      print(">> Initial reconstruction:", flush=True)
-      start_time = time.perf_counter()
-      A_approx = mrf.linop(trj, phi[:args.srn, :], mps[:args.sco, ...])
-      init  = mvc(sp.app.LinearLeastSquares(A_approx, ksp[:args.sco, ...], max_iter=args.sit).run())
-      end_time = time.perf_counter()
-      print("Time taken: %0.2f seconds." % (end_time - start_time), flush=True)
-
-      print(">> Inference:", flush=True)
-      start_time = time.perf_counter()
-      bias = smilr(args.dev, init)
-      end_time = time.perf_counter()
-      print("Time taken: %0.2f seconds." % (end_time - start_time), flush=True)
-
-      print(">> Scaling... ", flush=True, end="")
-      start_time = time.perf_counter()
-      scale = sp.to_device(xp.linalg.norm(ksp) / xp.linalg.norm(A * bias), sp.cpu_device)
-      bias  = bias * scale
-      end_time = time.perf_counter()
-      print("done. Time taken: %0.2f seconds." % (end_time - start_time), flush=True)
-
-      # Preparing weights.
-      coeff_weights = [1, 3.5, 6, 6.5, 7]
-      I  = sp.linop.Identity([1] + list(A.ishape[1:]))
-      W  = sp.linop.Diag([elm * I     for elm in coeff_weights], iaxis=0, oaxis=0)
-      iW = sp.linop.Diag([(1/elm) * I for elm in coeff_weights], iaxis=0, oaxis=0)
-
-      # Weighting vectors.
-      print(">> Refinement:", flush=True)
-      start_time = time.perf_counter()
-      A     = A * iW
-      bias  = W(bias)
-      recon = iW(sp.app.LinearLeastSquares(A, ksp, x=bias, z=bias, lamda=args.slm, max_iter=args.mit).run()).T
-      end_time = time.perf_counter()
-      print("Time taken: %0.2f seconds." % (end_time - start_time), flush=True)
+      raise("Not implemented yet.")
 
   print("> Saving reconstruction... ", end="", flush=True)
   start_time = time.perf_counter()
