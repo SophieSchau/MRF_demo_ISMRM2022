@@ -51,12 +51,12 @@ def load_data(trj_file: str, ksp_file: str, phi_file: str, phi_rank: int, akp: b
     ksp (Array): Acquired k-space data.
     phi (Array): Temporal subspace.
   '''
-  trj = loadmat("/mnt/" + trj_file)['k_3d'].transpose((1, 0, 2, 3))
+  trj = loadmat(trj_file)['k_3d'].transpose((1, 0, 2, 3))
   check_values(trj)
   assert np.abs(trj.ravel()).max() < 0.5, \
     "Trajectory must be scaled between -1/2 and 1/2."
 
-  ksp = np.load("/mnt/" + ksp_file, mmap_mode='r')
+  ksp = np.load(ksp_file, mmap_mode='r')
 
   if akp is False:
     # Remove rewinder points
@@ -69,7 +69,7 @@ def load_data(trj_file: str, ksp_file: str, phi_file: str, phi_rank: int, akp: b
     ksp = ksp[:, ptt:, ...]
 
   trj = trj[:, ptt:, ...]
-  phi = loadmat("/mnt/" + phi_file)['phi'][:, :phi_rank]
+  phi = loadmat(phi_file)['phi'][:, :phi_rank]
 
   check_values(phi)
   check_values(ksp)

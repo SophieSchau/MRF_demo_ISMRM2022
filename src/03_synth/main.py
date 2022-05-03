@@ -12,7 +12,7 @@ def main(args):
 
   print("> Loading data... ", end="", flush=True)
   start_time = time.perf_counter()
-  recon = np.load("/mnt/" + args.inp)
+  recon = np.load(args.inp)
   end_time = time.perf_counter()
   print("done. Time taken: %0.2f seconds." % (end_time - start_time), \
         flush=True)
@@ -37,7 +37,7 @@ def main(args):
   contrast_names = ["t1w", "t1mprage", "t2w", "t2flair", "dir"]
   for k in range(len(args.idx)):
     filename = contrast_names[args.idx[k]]
-    np.save("/mnt/" + args.sth + '/' + filename, synth[k, ...])
+    np.save(args.sth + '/' + filename, synth[k, ...])
   end_time = time.perf_counter()
   print("done. Time taken: %0.2f seconds." % (end_time - start_time), \
          flush=True)

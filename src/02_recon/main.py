@@ -43,7 +43,7 @@ def main(args):
     print("> Coil processing... ", end="", flush=True)
     start_time = time.perf_counter()
     with dev:
-      ccm      = xp.load("/mnt/" + args.ccm)
+      ccm      = xp.load(args.ccm)
       shape    = list(ksp.shape)
       shape[0] = ccm.shape[0]
 
@@ -60,7 +60,7 @@ def main(args):
 
   if args.shf is not None:
       print("> Shifting ksp:", flush=True)
-      shifts = np.load('/mnt/' + args.shf)
+      shifts = np.load(args.shf)
       (shift_x, shift_y, shift_z) = shifts
       print(f'Shifts: {shift_x}, {shift_y}, {shift_z}')
       px = np.exp(1j * 2 * np.pi * trj[0, ...] * shift_x)[None, ...]
@@ -76,7 +76,7 @@ def main(args):
 
       print("> Saving AutoFOV test... ", end="", flush=True)
       start_time = time.perf_counter()
-      np.save("/mnt/" + args.tfv, res)
+      np.save(args.tfv, res)
       del res
       end_time = time.perf_counter()
       print("done. Time taken: %0.2f seconds." % (end_time - start_time), flush=True)
@@ -87,7 +87,7 @@ def main(args):
   if args.svk is not None:
     print("> Saving processed k-space... ", end="", flush=True)
     start_time = time.perf_counter()
-    np.save("/mnt/" + args.svk, ksp)
+    np.save(args.svk, ksp)
     end_time = time.perf_counter()
     print("done. Time taken: %0.2f seconds." % (end_time - start_time), flush=True)
 
@@ -186,7 +186,7 @@ def main(args):
 
   print("> Saving reconstruction... ", end="", flush=True)
   start_time = time.perf_counter()
-  np.save("/mnt/" + args.res, recon)
+  np.save(args.res, recon)
   end_time = time.perf_counter()
   print("done. Time taken: %0.2f seconds." % (end_time - start_time), \
          flush=True)

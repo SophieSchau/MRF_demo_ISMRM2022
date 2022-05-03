@@ -23,7 +23,7 @@ def get_gre_ksp(raw):
 def main(args):
 
   ## Load data.
-  raw = np.load("/mnt/" + args.ksp)
+  raw = np.load(args.ksp)
   nc  = np.shape(raw)[1]
 
   if raw.shape[0] != 64 or raw.shape[2] != 4096:
@@ -37,10 +37,10 @@ def main(args):
   mtx_shape = list(img.shape[:3])
 
   # Load noise matrix.
-  nmat = np.load("/mnt/" + args.nse)
+  nmat = np.load(args.nse)
 
   if args.idx is not None:
-    idx = np.load('/mnt/'+ args.idx)
+    idx = np.load(args.idx)
     nmat = nmat[idx,...]
     nc = len(idx)
     ksp = ksp[..., idx]
@@ -97,8 +97,8 @@ def main(args):
 
   ## Save results
   if args.rci is not None:
-    np.save("/mnt/" + args.rci, img)
-  np.save("/mnt/" + args.ccm, ccm)
+    np.save(args.rci, img)
+  np.save(args.ccm, ccm)
 
 
 def create_arg_parser():

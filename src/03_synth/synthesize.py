@@ -21,7 +21,7 @@ def synthesize_star(input, idx, weights):
                            params.ngf, params.which_model_netG,
                            params.norm, params.dropout, params.init_type,
                            params.init_gain, params.gpu_ids)
-  state_dict = torch.load("/mnt/" + weights)
+  state_dict = torch.load(weights)
 
   new_state_dict = collections.OrderedDict() 
   for k, v in state_dict.items(): 
