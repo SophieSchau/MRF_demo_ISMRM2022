@@ -1,6 +1,4 @@
 import numpy as np
-import nipype.interfaces.fsl as fsl
-
 def preprocess_star(rec):
   '''
   rec_clean = preprocess_star(rec)
