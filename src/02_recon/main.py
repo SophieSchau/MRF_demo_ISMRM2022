@@ -133,10 +133,6 @@ def main(args):
               sp.prox.NoOp(A.ishape)
       recon = mvc(optalg.unconstrained(args.mit, A, ksp, proxg, pdeg=args.pdg)).T
 
-    if args.s:
-      print("> SMILR:", flush=True)
-      raise("Not implemented yet.")
-
   print("> Saving reconstruction... ", end="", flush=True)
   start_time = time.perf_counter()
   np.save(args.res, recon)
