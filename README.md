@@ -1,6 +1,6 @@
 # MRF Demo - ISMRM 2022
 
-This Demo is built to let others try to run the processing pipeline used in the abstract *Toward a 1-minute high-resolution brain exam - MR Fingerprinting with ML-synthesized contrasts and fast reconstruction* presented at the 2022 ISMRM Annual meeting in London (program number 53). You can find the abstract (here)[https://submissions.mirasmart.com/ISMRM2022/itinerary/Files/PDFFiles/0053.html] (requires login).
+This Demo is built to let others try to run the processing pipeline used in the abstract *Toward a 1-minute high-resolution brain exam - MR Fingerprinting with ML-synthesized contrasts and fast reconstruction* presented at the 2022 ISMRM Annual meeting in London (program number 53). You can find the abstract [here](https://submissions.mirasmart.com/ISMRM2022/itinerary/Files/PDFFiles/0053.html) (requires login).
 
 This project is aimed at translating highly undrsampled MRF to a clinically feasible tool, by building a robust reconstruction pipeline that is portable between different compute systems (research lab, hospital, high performance computing cluster, collaborators, etc...). To achieve this these core objectives were set:
 
