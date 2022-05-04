@@ -24,8 +24,7 @@ def main(args):
 
   print("> Loading data... ", end="", flush=True)
   start_time = time.perf_counter()
-  (trj, ksp, phi) = load_data(args.trj, args.ksp, args.phi, args.rnk, \
-                              bool(strtobool(args.akp)), args.ptt)
+  (trj, ksp, phi) = load_data(args.trj, args.ksp, args.phi, args.rnk, args.ptt)
   end_time = time.perf_counter()
   print("done. Time taken: %0.2f seconds." % (end_time - start_time), \
         flush=True)
@@ -57,7 +56,7 @@ def main(args):
     print("done. Time taken: %0.2f seconds." % (end_time - start_time), \
           flush=True)
 
-  if args.shf is not None:
+  if args.shf is not None and not bool(strtobool(args.yfv)):
       print("> Shifting ksp:", flush=True)
       shifts = np.load(args.shf)
       (shift_x, shift_y, shift_z) = shifts
@@ -68,20 +67,9 @@ def main(args):
       ksp = ksp * px * py * pz
       end_time = time.perf_counter()
       print("done. Time taken: %0.2f seconds." % (end_time - start_time), flush=True)
-  else:
-    if args.akp == False and args.tfv is not None:
-      print("> AutoFOV (with testing):", flush=True)
-      (ksp, res) = autofov(ksp, trj, (sx, sy, sz), mit=args.fit, save=True, devnum=args.dev)
-
-      print("> Saving AutoFOV test... ", end="", flush=True)
-      start_time = time.perf_counter()
-      np.save(args.tfv, res)
-      del res
-      end_time = time.perf_counter()
-      print("done. Time taken: %0.2f seconds." % (end_time - start_time), flush=True)
-    elif args.akp == False:
-      print("> AutoFOV:", flush=True)
-      ksp = autofov(ksp, trj, (sx, sy, sz), mit=args.fit, save=False, devnum=args.dev)
+  elif bool(strtobool(args.yfv)):
+    print("> AutoFOV:", flush=True)
+    ksp = autofov(ksp, trj, (sx, sy, sz), mit=args.fit, save=False, devnum=args.dev)
 
   if args.svk is not None:
     print("> Saving processed k-space... ", end="", flush=True)
@@ -175,18 +163,12 @@ def create_arg_parser():
     help="Conjugate Gradient Reconstruction.")
   group.add_argument('-p', action='store_true', \
     help="Polynomial Preconditioned LLR Reconstruction.")
-  group.add_argument('-s', action='store_true', \
-    help="SMILR Reconstruction.")
 
   # Optional parameters.
   parser.add_argument("--ccm", type=str, required=False, default=None, \
     help="Coil processing matrix.")
-  parser.add_argument("--akp", type=str, required=False, default="True", \
-    help="Assume k-space processed already.")
   parser.add_argument("--yfv", type=str, required=False, default="True", \
     help="Perform AutoFOV.")
-  parser.add_argument("--tfv", type=str, required=False, default=None, \
-    help="Save AutoFOV results.")
   parser.add_argument("--svk", type=str, required=False, default=None, \
     help="Save processed k-space.")
   parser.add_argument("--rnk", type=int, required=False, default=5, \
@@ -202,7 +184,7 @@ def create_arg_parser():
   parser.add_argument("--mit", type=int, required=False, default=40,  \
     help="Number of iterations for reconstruction.")
   parser.add_argument("--nco", type=int, required=False, default=None, \
-    help="Number of coils to use (after coil compression)")
+    help="Number of coils to use (after JSENSE)")
   parser.add_argument("--shf", type=str, required=False, default=None,\
     help="(x, y, z) shifts in mm.")
 
@@ -214,15 +196,6 @@ def create_arg_parser():
     help="(-p) Regularization value for LLR.")
   parser.add_argument("--eig", type=float, required=False, default=None, \
     help="(-p) Lipchitz constant, if known.")
-
-  parser.add_argument("--srn", type=int, required=False, default=3, \
-    help="(-s) Initial reconstruction rank.")
-  parser.add_argument("--sco", type=int, required=False, default=3, \
-    help="(-s) Initial reconstruction number of coils.")
-  parser.add_argument("--sit", type=int, required=False, default=5, \
-    help="(-s) Initial reconstruction number of iterations.")
-  parser.add_argument("--slm", type=float, required=False, default=1e-2, \
-    help="(-s) Scale regularization.")
 
 
   return parser

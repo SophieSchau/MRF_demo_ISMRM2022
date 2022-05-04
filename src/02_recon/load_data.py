@@ -7,7 +7,7 @@ def check_values(arr):
   assert np.sum(np.isinf(np.abs(arr.ravel()))) == 0, \
     ">>>>> Unexpected inf in array."
 
-def load_data(trj_file: str, ksp_file: str, phi_file: str, phi_rank: int, akp: bool, ptt: int):
+def load_data(trj_file: str, ksp_file: str, phi_file: str, phi_rank: int, ptt: int):
   '''
   (trj, ksp, phi) = load_data(trj_file, ksp_file, phi_file, phi_rank):
 
@@ -58,15 +58,15 @@ def load_data(trj_file: str, ksp_file: str, phi_file: str, phi_rank: int, akp: b
 
   ksp = np.load(ksp_file, mmap_mode='r')
 
-  if akp is False:
-    # Remove rewinder points
-    num_points = trj.shape[1]
-    ksp = np.transpose(ksp[:num_points, ...], (1, 0, 2))
 
-    # Split interleaves and time points
-    ksp = np.reshape(ksp, (ksp.shape[0], ksp.shape[1], \
-                           trj.shape[2], trj.shape[3]))
-    ksp = ksp[:, ptt:, ...]
+  # Remove rewinder points
+  num_points = trj.shape[1]
+  ksp = np.transpose(ksp[:num_points, ...], (1, 0, 2))
+
+  # Split interleaves and time points
+  ksp = np.reshape(ksp, (ksp.shape[0], ksp.shape[1], \
+                          trj.shape[2], trj.shape[3]))
+  ksp = ksp[:, ptt:, ...]
 
   trj = trj[:, ptt:, ...]
   phi = loadmat(phi_file)['phi'][:, :phi_rank]
