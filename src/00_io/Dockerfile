@@ -1,4 +1,4 @@
-FROM python-sdk
+FROM cpp-sdk
 
 LABEL MAINTAINER="ssi@mit.edu"
 
