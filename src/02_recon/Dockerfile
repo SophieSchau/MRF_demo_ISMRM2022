@@ -18,9 +18,6 @@ RUN pip3 install torch==1.9.1+cu111 torchvision==0.10.1+cu111 torchaudio==0.9.1 
 RUN pip3 install pytorch-lightning==1.5.0
 RUN conda install -c conda-forge setuptools==59.5.0
 
-RUN mkdir smilr
-COPY smilr/* smilr/
-
 COPY load_data.py ./
 COPY autofov.py ./
 COPY mrf.py ./
