@@ -43,7 +43,7 @@ def main(args):
 
   print("> Loading scan archive... ", end="", flush=True)
   start_time = time.perf_counter()
-  archive = Archive("/mnt/" + args.scn)
+  archive = Archive(args.scn)
   end_time = time.perf_counter()
   print("done. Time taken: %0.2f seconds." % (end_time - start_time), flush=True)
 
@@ -72,7 +72,7 @@ def main(args):
 
   # Saving parameters as text file.
   if args.txt is not None:
-    with open("/mnt/"+ args.txt, 'w') as f:
+    with open(args.txt, 'w') as f:
       f.write(f'{hdr["psd_name"]}\n')
       f.write(f'{hdr["exam_num"]}\n')
       f.write(f'{hdr["number_of_interleaves"]}\n')
@@ -88,7 +88,7 @@ def main(args):
     if name[-4:] != ".pkl":
       name = name + ".pkl"
 
-    with open("/mnt/" + name, 'wb') as f:
+    with open( name, 'wb') as f:
       pickle.dump(hdr, f)
 
 
@@ -103,7 +103,7 @@ def main(args):
 
     print("> Saving NPY... ", end="", flush=True)
     start_time = time.perf_counter()
-    np.save("/mnt/" + args.ksp, ksp)
+    np.save( args.ksp, ksp)
     end_time = time.perf_counter()
     print("done. Time taken: %0.2f seconds." % (end_time - start_time), flush=True)
 
@@ -115,12 +115,12 @@ def main(args):
       noise_path = glob.glob(os.path.join(basePath + "/" + str(hdr["exam_num"]), \
                                           "{0}*.h5".format("NoiseStatistic")))[0]
     else:
-      noise_path = '/mnt/' + args.nsc
+      noise_path =  args.nsc
 
     print("> Parsing and saving noise measurement... ", end="", flush=True)
     start_time = time.perf_counter()
     noise = get_noise(noise_path)
-    np.save("/mnt/" + args.nse, noise)
+    np.save( args.nse, noise)
     end_time = time.perf_counter()
     print("done. Time taken: %0.2f seconds." % (end_time - start_time), flush=True)
 
@@ -134,7 +134,7 @@ def main(args):
     import sigpy as sp
 
     dicom = Dicom(archive)
-    res = np.load("/mnt/" + args.rec)
+    res = np.load( args.rec)
 
     # Resizing to get around DICOM's inbuilt interpolation.
     R = sp.linop.Resize((256, 256, res.shape[2]), res.shape) 
@@ -179,7 +179,7 @@ def main(args):
 
       slc = np.rot90(np.abs(x[write_slc_idx, ...].squeeze()).astype(np.float32), k=2)
 
-      save_path = "/mnt/%s/mrf_%s%05d.dcm" % (args.dcm, series_tag.lower(), write_slc_idx)
+      save_path = "%s/mrf_%s%05d.dcm" % (args.dcm, series_tag.lower(), write_slc_idx)
       dicom.Write(save_path, slc, write_slc_idx, corners, orientation)
 
       # Load DICOM into pydicom for additional manipulation.
