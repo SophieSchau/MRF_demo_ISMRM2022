@@ -17,4 +17,4 @@ This modular MRF processing pipeline includes 4 steps:
 3.   Reconstruct MRF (fast subspace basis reconstruction)
 4.   Synthesize clinical contrasts
 
-Each step will be demonstrated in a Google Colab session, and documentation on how to run the equivalent Docker/Singularity containers on your own machine will be explained in the final section of the Jupyter notebook.
+Each step will be demonstrated in a Google Colab session, and documentation on how to run the equivalent Docker containers on your own machine will be explained in the final section of the Jupyter notebook.
