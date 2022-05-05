@@ -28,7 +28,6 @@ COPY llr.py ./
 COPY optalg.py ./
 COPY optpoly.py ./
 COPY nn.py ./
-COPY smilr.py ./
 COPY main.py ./
 
 ENTRYPOINT ["python3", "main.py"]
